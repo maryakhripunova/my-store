@@ -7,7 +7,7 @@ const Hello = ({ name, surname }) => <p>
   hellow <h1>{name} {surname}</h1>
 </p>
 
-const Table = ({ persons }) => {
+const Table = ({ persons, choose }) => {
 
   let rows = names.map((ob, i) =>
     <tr>
@@ -16,7 +16,7 @@ const Table = ({ persons }) => {
       <td><button onClick={() => choose(i)}>choose</button></td>
     </tr>
   )
-  let choose = (i) => alert("chosen " + i)
+
 
   return (<table>
     <tr>
@@ -28,15 +28,27 @@ const Table = ({ persons }) => {
 }
 
 class App extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = { chosen: 0 };
+  }
+
+
+  choose(i) {
+    this.setState({ chosen: i })
+  }
+
   render() {
-    let name = names.map((ob) =>
-      <Hello name={ob.name} surname={ob.surname} />)
+    let person = names[this.state.chosen];
+
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <Table persons={names} />
-
+          <Table persons={names} choose={(i) => this.choose(i)} />
+          <Hello name={person.name} surname={person.surname} />
 
         </header>
       </div>
